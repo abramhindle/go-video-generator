@@ -74,7 +74,7 @@ func renderNewFrame( canvas *opencv.IplImage, images []*opencv.IplImage, mask *o
 
 var masks [4000]*opencv.IplImage
 
-func getMask(base int, width int, height int) *opencv.IplImage {
+func getTriMask(base int, width int, height int) *opencv.IplImage {
 	if (masks[base] == nil) {
 		masks[base] = opencv.CreateImage(width, height, 8, 1)
 		opencv.Zero(masks[base])
@@ -96,18 +96,7 @@ func getMask(base int, width int, height int) *opencv.IplImage {
 
 
 func renderTriangle(base int, canvas *opencv.IplImage, image *opencv.IplImage, mask *opencv.IplImage) {
-	// opencv.Zero(mask)
-	// //opencv.Copy(image, canvas, nil)
-	// rgb := opencv.ScalarAll(255.0)
-	// for i := 0 ; i < canvas.Width()/2 + base; i+=5 {
-	// 	pt1 := opencv.Point{ ((-2 * canvas.Width() / 4) + i), canvas.Height() }
-	// 	pt2 := opencv.Point{ i, 0 }
-	// 	pt3 := opencv.Point{ (6 * canvas.Width() / 4) - i, canvas.Height() }
-	// 	pt4 := opencv.Point{ canvas.Width() - i, 0 }
-	// 	opencv.Line(mask, pt1, pt2, rgb, 200, 8, 0)		
-	// 	opencv.Line(mask, pt3, pt4, rgb, 200, 8, 0)		
-	// }
-	ourMask := getMask(base, canvas.Width(), canvas.Height())
+	ourMask := getTriMask(base, canvas.Width(), canvas.Height())
 	opencv.Copy(image, canvas, ourMask)
 }
 
